@@ -1,84 +1,108 @@
-const express = require('express');
-const path = require('path');
-const fs = require('fs');
+const express = require("express");
+const path = require("path");
+const fs = require("fs");
 const app = express();
-const datafile = path.join(__dirname,'data.json');
+const datafile = require("./data.json");
 
-// 1. Static files 
-app.use(express.static(path.join(__dirname, 'public')));
-
-// URL encoded body 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
-// Helper function to serve views
-const renderView = (res, fileName) => {
-  res.sendFile(path.join(__dirname, 'views', index.html));
-};
 
 
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+
+  next();
+});
 
 // Root route
-app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'index.html'));
+app.get("/", (req, res) => {
+  res.send(JSON.stringify(datafile.home));
 });
 
 // Home page
-app.get('/home', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'index.html'));
+app.get("/home", (req, res) => {
+  res.send(JSON.stringify(datafile.home));
 });
 
 // About page
-app.get('/about', (req, res) => {
-   res.sendFile(path.join(__dirname,'views', 'about.html'));
+app.get("/about", (req, res) => {
+  res.send(JSON.stringify(datafile.home));
 });
 
 // Contact page
-app.get('/contact', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'contact.html'));
-});
+
 //facilities
-app.get('/facilities', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'facilities.html'));
+app.get("/facilities", (req, res) => {
+  res.send(JSON.stringify(datafile.facilities));
 });
 // placement
-app.get('/placement', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'placement.html'));
+app.get("/placements", (req, res) => {
+  res.send(JSON.stringify(datafile.placements));
 });
-  app.get('/courses/:course',(req,res)=>{
+app.get("/courses/:course", (req, res) => {
+  const course = req.params.course;
 
-  const course = req.params.course; 
- 
-
-        if(course==='bca')
-            res.sendFile(path.join(__dirname,'views', 'bca.html'));
-
-        else if(course==='btech')
-           res.sendFile(path.join(__dirname,'views', 'btech.html'));
-            else{
-               res.sendFile(path.join(__dirname,'views', 'courses.html'));
-            }
-  }) ;
-          
-      app.get('/courses', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'courses.html'));
+  if (course === "bca") res.send(JSON.stringify(datafile.BCA));
+  else if (course === "btech") res.send(JSON.stringify(datafile.BTECH));
+  else {
+    res.send(JSON.stringify(datafile.MCA));
+  }
 });
- app.get('/students', (req, res) => {
-  res.sendFile(path.join(__dirname,'views', 'students.html'));
+
+app.get("/courses", (req, res) => {
+  res.send(JSON.stringify(datafile.courses));
 });
-      
-// Contact form submission 
-app.post('/students', (req, res) => {
-  console.log(req.body);
+app.get("/students", (req, res) => {
+  res.send(JSON.stringify(datafile.students));
+});
+
+app.post("/contact", (req, res) => {
+const data2Path = path.join(__dirname,'data2.json');
+
+  const newdata = req.body;
+  // console.log(req.body);
+        fs.readFile(data2Path, "utf-8", (err, data) => {
+          let currentRecords = [];
   
-  res.send('<h3>Thank you! </h3>');
+          if (!err && data ) {
+            try {
+              currentRecords = JSON.parse(data);
+             
+            } catch (e) {
+              currentRecords = [];
+            }
+          }
+  currentRecords.push(newdata);
+          
+  
+          fs.writeFile(data2Path, JSON.stringify(currentRecords, null, 2), (writeErr) => {
+            if (writeErr) {
+            
+        
+              res.status(500).send(JSON.stringify({ error: "Failed to write data" }));
+              return;
+            }
+  
+          
+            res.status(201).send(JSON.stringify({ message: "Contact details saved successfully" }));
+          });
+        });
+      
+    
+
 });
 
-// 404 Page 
 app.use((req, res) => {
-  res.status(404).send('<h2>404 - Page Not Found</h2><a href="/home">Go to Home</a>');
+  res.status(404)
+    .send('<h2>404 - Page Not Found</h2><a href="/home">Go to Home</a>');
 });
 
-// Start Server
 app.listen(3300, () => {
-  console.log('server is running');
+  console.log("server is running");
 });

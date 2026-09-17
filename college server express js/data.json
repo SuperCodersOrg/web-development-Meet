@@ -1,27 +1,98 @@
-[
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
+{
+ 
+  "home": [
+    { "title": "Welcome", "description": "XYZ College Main Campus" }
+  ],
+  "about": [
+    { "title": "About Us", "description": "Established in 2022" }
+  ],
+
+  "courses":[
+{
+  "course1": "BCA",
+   "course2": "BTECH",
+    "course3": "MCA"
+}
+  ],
+  "BCA": [
+    {
+      "id": 101,
+      "code": "BCA-AI",
+      "name": "BCA (Artificial Intelligence & Data Science)",
+      "duration": "3 Years",
+      "eligibility": "10+2 with minimum 50% marks",
+      "highlights": ["Python & DSA", "Machine Learning", "Full Stack Web Dev"]
+    }
+   
+  ],
+  "BTECH":[
+ {
+      "id": 101,
+      "code": "BTECH",
+      "name": "BTECH (Artificial Intelligence & Data Science)",
+      "duration": "3 Years",
+      "eligibility": "10+2 with minimum 50% marks",
+      "highlights": ["Python & DSA", "Machine Learning", "Full Stack Web Dev"]
+    }
+  ],
+   "MCA":[
+ {
+      "id": 101,
+      "code": "MCA",
+      "name": "MCA (Artificial Intelligence & Data Science)",
+      "duration": "3 Years",
+      "eligibility": "10+2 with minimum 50% marks",
+      "highlights": ["Python & DSA", "Machine Learning", "Full Stack Web Dev"]
+    }
+  ],
+   "students":[
+ {"total":500,
+ "inBCA":100,
+ "inBTECH":200,
+ "inMCA":200
+       }
+  ],
+  "facilities": [
+    {
+      "id": 1,
+      "name": "High-Tech Computer Labs",
+      "description": "Equipped with high-performance workstations, Ubuntu/Linux environments, and gigabit high-speed internet."
+    },
+    {
+      "id": 2,
+      "name": "Central Digital Library",
+      "description": "Access to thousands of international research papers, technical journals, and e-books 24/7."
+    },
+    {
+      "id": 3,
+      "name": "Innovation & Incubation Hub",
+      "description": "Dedicated workspace for student startups, hackathon preparations, and freelance collaborative projects."
+    }
+  ],
+  "placements": {
+    "highestPackage": "24 LPA",
+    "averagePackage": "6.8 LPA",
+    "placementRate": "94%",
+    "topRecruiters": ["Google", "Microsoft", "TCS", "Infosys", "CodeQuotient", "Wipro"]
   },
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
-  },
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
-  },
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
-  },
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
-  },
-  {
-    "name": "mjn",
-    "email": "tehjc@jd.c"
-  },
-  "\"{\\\"name\\\":\\\"Meet Kumar\\\",\\\"email\\\":\\\"meet.mittan.8888@gmail.com\\\"}\""
-]
+  "notices": [
+    {
+      "id": 1,
+      "date": "15 Sep 2026",
+      "title": "Registrations Open for SIH & Smart Hackathon 2026",
+      "category": "Event"
+    },
+    {
+      "id": 2,
+      "date": "10 Sep 2026",
+      "title": "Semester Minor Project Submissions Deadline Announced",
+      "category": "Academics"
+    },
+    {
+      "id": 3,
+      "date": "05 Sep 2026",
+      "title": "Campus Placement Drive for Final Year Students Starts Next Week",
+      "category": "Placements"
+    }
+  ]
+}

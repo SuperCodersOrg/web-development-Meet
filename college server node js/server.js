@@ -20,7 +20,7 @@ const server = http.createServer((req, res) => {
     let body = "";
 
     req.on("data", (chunk) => {
-      body += chunk.toString();
+      body += chunk;
     });
 
     req.on("end", () => {
@@ -69,34 +69,34 @@ const server = http.createServer((req, res) => {
 
     if (req.url === "/home" || req.url === "/") {
       res.statusCode = 200;
-      res.end(JSON.stringify(datafile.home || datafile));
+      res.end(JSON.stringify(datafile.home ));
     } else if (req.url.startsWith("/courses")) {
       let split = req.url.split("/");
       if (split[2] === "bca") {
         res.statusCode = 200;
-        res.end(JSON.stringify(datafile.BCA || datafile));
+        res.end(JSON.stringify(datafile.BCA ));
       } else if (split[2] === "btech") {
         res.statusCode = 200;
-        res.end(JSON.stringify(datafile.BTECH || datafile));
+        res.end(JSON.stringify(datafile.BTECH ));
       } else if (split[2] === "mca") {
         res.statusCode = 200;
-        res.end(JSON.stringify(datafile.MCA || datafile));
+        res.end(JSON.stringify(datafile.MCA ));
       } else {
         res.statusCode = 200;
-        res.end(JSON.stringify(datafile.courses || datafile));
+        res.end(JSON.stringify(datafile.courses ));
       }
     } else if (req.url === "/about") {
       res.statusCode = 200;
-      res.end(JSON.stringify(datafile.about || datafile));
+      res.end(JSON.stringify(datafile.about ));
     } else if (req.url === "/students") {
       res.statusCode = 200;
-      res.end(JSON.stringify(datafile.students || datafile));
+      res.end(JSON.stringify(datafile.students ));
     } else if (req.url === "/facilities") {
       res.statusCode = 200;
-      res.end(JSON.stringify(datafile.facilities || datafile));
+      res.end(JSON.stringify(datafile.facilities ));
     } else if (req.url === "/placements") {
       res.statusCode = 200;
-      res.end(JSON.stringify(datafile.placements || datafile));
+      res.end(JSON.stringify(datafile.placements ));
     } else {
       res.statusCode = 404;
       res.end(JSON.stringify({ error: "Route not found" }));

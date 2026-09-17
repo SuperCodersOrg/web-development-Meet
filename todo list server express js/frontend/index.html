@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ToDo App</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+  </head>
+  <body class="bg-gray-100 min-h-screen py-10 px-4">
+    <div id="main-frame" class="max-w-2xl mx-auto bg-white rounded-2xl shadow-md border border-gray-200 overflow-hidden">
+      
+      <div id="head-box" class="text-3xl font-bold text-white text-center bg-blue-600 p-6">
+        TODO LIST
+      </div>
+
+      <div id="input-box" class="flex flex-col m-5 bg-blue-50 border border-blue-100 rounded-xl p-5 gap-3">
+        <input 
+          type="text" 
+          class="text-lg p-3 border border-gray-300 rounded-lg bg-white outline-none focus:ring-2 focus:ring-blue-500" 
+          placeholder="Enter Title" 
+          id="title-box"
+        >
+        <textarea 
+          placeholder="Enter Description" 
+          rows="3" 
+          class="text-base p-3 bg-white border border-gray-300 rounded-lg outline-none focus:ring-2 focus:ring-blue-500" 
+          id="description-box"
+        ></textarea>
+        <div class="flex justify-end">
+         <a 
+  href="#addbtn" 
+  id="add-task-btn" 
+  class="inline-block bg-blue-600 hover:bg-blue-700 text-white text-lg font-medium py-2 px-6 rounded-lg cursor-pointer transition-all no-underline text-center"
+>
+  Add tasks
+</a>
+        </div>
+      </div>
+
+      <div id="output-box" class="flex flex-col m-5 p-5 border border-gray-200 rounded-xl bg-gray-50 gap-3">
+        <h1 class="font-bold text-gray-700 text-xl mb-2">Tasks And Output Box</h1>
+        <div id="tasks-container" class="flex flex-col gap-3"></div>
+      </div>
+
+      <div id="stop-watch"></div>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>
