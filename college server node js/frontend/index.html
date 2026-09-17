@@ -5,55 +5,63 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>XYZ COLLEGE</title>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
     <header>
-       <div> <h1>XYZ COLLEGE</h1></div>
-       <div> 
-        <nav>
-            <a href="/">Home</a>
-            <a href="/courses">Courses</a>
-            <a href="/about">about</a>
-            <a href="/students">Students</a>
-            <a href="/facilities">Facilities</a>
-            <a href="/placement">Placements</a>
-            <a href="/contact">Contact</a>
-        </nav></div>
+        <div>
+            <h1>XYZ COLLEGE</h1>
+        </div>
+        <div>
+            <nav id="main-nav">
+                <a href="#home" id="nav-home" data-section="home">Home</a>
+                <a href="#courses" id="nav-courses" data-section="courses">Courses</a>
+                <a href="#about" id="nav-about" data-section="about">About</a>
+                <a href="#students" id="nav-students" data-section="students">Students</a>
+                <a href="#facilities" id="nav-facilities" data-section="facilities">Facilities</a>
+                <a href="#placements" id="nav-placements" data-section="placements">Placements</a>
+                <a href="#contact" id="nav-contact" data-section="contact">Contact</a>
+            </nav>
+        </div>
     </header>
-    
-        <section class="info1">
-            <h2>Welcome to XYZ College</h2>
-            <p>Works on logic building, skills, and to achive goals.</p>
-            <a href="/courses" class="btn">View Courses</a>
+
+    <main id="app-content">
+        <section id="home-section" class="content-section">
         </section>
-        <section class="info">
+
+        <section id="courses-section" class="content-section" style="display: none;">
+            <h2>Available Courses</h2>
+            <div id="courses-list-container"></div>
+        </section>
+
+        <section id="about-section" class="content-section" style="display: none;">
             <h2>About Our College</h2>
-            <p> Our College was established in 2022 in Panipat. We provide best faculity and opportunities for
-                students to develop their technical and professional skills. </p>
-        </section>
-        <section class="info2">
-            <div class="infoMatter">
-                <h3>Available Courses</h3>
-                <p>BCA, B.Tech CSE, B.Tech AI & ML</p>
-                <a href="/courses">View Courses</a>
-            </div>
-            <div class="infoMatter">
-                <h3>Students</h3>
-                <p>you can see student details here.</p>
-                <a href="/students">View Students</a>
-            </div>
-            <div class="infoMatter">
-                <h3>Placements</h3>
-                <p>Explore career opportunities and placement information.</p>
-                <a href="/placement">View Placements</a>
-            </div>
+            <div id="about-details-container"></div>
         </section>
 
+        <section id="students-section" class="content-section" style="display: none;">
+            <h2>Student Directory</h2>
+            <div id="students-list-container"></div>
+        </section>
 
-    
-   
+        <section id="facilities-section" class="content-section" style="display: none;">
+            <h2>Campus Facilities</h2>
+            <div id="facilities-list-container"></div>
+        </section>
+
+        <section id="placements-section" class="content-section" style="display: none;">
+            <h2>Placement Statistics & Records</h2>
+            <div id="placement-stats-container"></div>
+        </section>
+
+        <section id="contact-section" class="content-section" style="display: none;">
+            <h2>Contact Us</h2>
+            <div id="contact-info-container"></div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
 </body>
 
 </html>
