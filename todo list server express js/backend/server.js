@@ -2,34 +2,38 @@ const express = require("express");
 const cors = require("cors")
 const path = require("path");
 const fs = require("fs");
+const { METHODS } = require("http");
 const app = express();
 const dataPath = path.join(__dirname, "data.json");
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
-// CORS config - DELETE allowed
-// app.use((req, res, next) => {
-//   res.header("Access-Control-Allow-Origin", "*");
-//   res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
-//   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//CORS config - DELETE allowed
+app.use((req, res, next) => {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Methods", "GET, POST, PUT, PATCH, DELETE, OPTIONS");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
 
-//   if (req.method === "OPTIONS") {
-//     return res.sendStatus(200);
-//   }
-//   next();
-// });
+  if (req.method === "OPTIONS") {
+    return res.sendStatus(200);
+  }
+  next();
+});
 
-app.use(cors("http://127.0.0.1:5500"));
+// app.use(cors({
+//   origin:'http://127.0.0.1:5500',
+
+// }));
 
 function readData() {
   if (!fs.existsSync(dataPath)) return [];
   const text = fs.readFileSync(dataPath, "utf-8");
-  if (!text ) return [];
+  if (!text || text.trim() === "") return [];
   try {
     return JSON.parse(text);
   } catch (err) {
-    res.send("error found :");
+    console.error("JSON parse error:", err);
     return [];
   }
 }

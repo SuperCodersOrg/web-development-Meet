@@ -1,6 +1,13 @@
 const express = require("express");
 const router = express.Router();
 
+const teacherAuth = (req,res,next)=>{
+    console.log("teacher reached");
+    next();
+}
+
+router.use(teacherAuth);
+
 router.get('/',(req,res)=>{
     res.send("teacher portal");
 })

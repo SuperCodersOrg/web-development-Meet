@@ -7,7 +7,8 @@ if (addTaskBtn) {
 
 loadTasks();
 
-function loadTasks() {
+function loadTasks(e) {
+  if (e) e.preventDefault();
   fetch("http://localhost:3370/addtask")
     .then((res) => res.json())
     .then((data) => {
@@ -19,7 +20,8 @@ function loadTasks() {
     .catch((err) => console.error("Error loading tasks:", err));
 }
 
-function addTask() {
+function addTask(e) {
+  if (e) e.preventDefault();
   const titleBox = document.getElementById("title-box");
   const descBox = document.getElementById("description-box");
 

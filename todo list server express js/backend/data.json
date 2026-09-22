@@ -44,6 +44,54 @@
     "title": "lvfldg",
     "description": "dofk",
     "date": "9/21/2026, 2:26:28 PM",
+    "isDone": true,
+    "isDeleted": true
+  },
+  {
+    "id": "task_1789989577334",
+    "title": "hg",
+    "description": "h",
+    "date": "9/21/2026, 4:49:37 PM",
+    "isDone": true,
+    "isDeleted": true
+  },
+  {
+    "id": "task_1789989694929",
+    "title": "d",
+    "description": "f",
+    "date": "9/21/2026, 4:51:34 PM",
+    "isDone": false,
+    "isDeleted": true
+  },
+  {
+    "id": "task_1789989954369",
+    "title": "krlej",
+    "description": "dfsjk",
+    "date": "9/21/2026, 4:55:54 PM",
+    "isDone": false,
+    "isDeleted": true
+  },
+  {
+    "id": "task_1789990229209",
+    "title": "dfdf",
+    "description": "dfdf",
+    "date": "9/21/2026, 5:00:29 PM",
+    "isDone": false,
+    "isDeleted": true
+  },
+  {
+    "id": "task_1789990557035",
+    "title": "dfgdfg",
+    "description": "defdr",
+    "date": "9/21/2026, 5:05:57 PM",
+    "isDone": false,
+    "isDeleted": false
+  },
+  {
+    "id": "task_1789990828560",
+    "title": "xcdfk",
+    "description": "kdfmk",
+    "date": "9/21/2026, 5:10:28 PM",
     "isDone": false,
     "isDeleted": false
   }
