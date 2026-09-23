@@ -22,26 +22,4 @@
 
 
 
-     const login = document.getElementById('loginid');
-
-     login.addEventListener('click',(e)=>{
-      e.preventDefault();
-
- const em = document.getElementById('login-email');
-  const pass = document.getElementById('login-password');
-      const cred = {
-        email : em.value,
-        password:pass.value
-      }
-      fetch('http://localhost:3300/login',{
-        method: "POST",
-        headers:{"Content-Type": "application/json"},
-        body : JSON.stringify(cred)
-      })
-      .then((res)=>res.json())
-      .then((data)=>{
-console.log(data);
-
-      })
-          .catch((err) => console.error("Error :", err));
-     })
+ 

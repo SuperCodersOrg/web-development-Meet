@@ -1,23 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const users =[
-    {
-        username :"meet",
-        email:"meet.mittan.8888@gmail.com",
-        role:"student",
-        password:"meet@123"
-    }
-];
+
 const path = require('path');
 
-router.get(['/','/login','/signup'],(req,res)=>{
-    if(req.session && req.session.user){
-        return res.redirect(`${req.session.user.role}`)
-    }
+// router.get(['/','/login','/signup'],(req,res)=>{
+//     if(req.session && req.session.user){
+//         return res.redirect(`${req.session.user.role}`)
+//     }
 
 
-    res.sendFile(path.join(__dirname,'../frontend/index.html'));
-});
+//     res.sendFile(path.join(__dirname,'../frontend/index.html'));
+// });
 router.post('/signup', (req, res) => {
   const { name, email, password, role } = req.body;
 
@@ -33,7 +26,11 @@ router.post('/signup', (req, res) => {
     password,
     role: role 
   });
-
+ req.session.user = {
+    email,
+    password,
+    role
+  };
   res.redirect('/login');
 });
 
@@ -61,6 +58,7 @@ if(role==="student"){
 }else{
     res.redirect(303,"/teacher");
 }
+})
 })
 
 
