@@ -13,15 +13,17 @@ app.set('views', path.join(__dirname, 'view'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 
-app.use(session({
-    secret: 'meetkey123',
-    resave: false,
-    saveUninitialized: false,
-    cookie: { 
-        maxAge: 1000 * 60 * 30,
-        httpOnly: true 
-    }
-}));
+app.get('/home',(req,res)=>{
+    res.render("home",{title:"home page"});
+});
+
+app.get('/about',(req,res)=>{
+    res.render("about",{title:"about page"});
+});
+
+app.listen(2000,()=>{
+    console.log("server is running");
+})
 
 
 
