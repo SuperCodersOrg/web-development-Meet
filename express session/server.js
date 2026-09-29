@@ -5,7 +5,7 @@ const studentroutes = require("./routes/student");
 const teacherroutes = require("./routes/teacher");
 const path = require("path");
 const cors = require("cors");
-const router = require("./routes/auth");
+// const router = require("./routes/auth");
 const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, "frontend")));
@@ -41,7 +41,7 @@ app.use(
 //     }
 //     next();
 // }
-router.get("/", (req, res) => {
+app.get("/", (req, res) => {
   res.redirect("index.html");
 });
 app.get("/login", (req, res) => {
@@ -65,7 +65,7 @@ app.post("/login", (req, res, next) => {
   };
   console.log(user.role);
   if (user.role === "student") {
-    res.redirect("/student");
+    res.redirect("/student/info");
   } else {
     res.redirect("/teacher");
   }
