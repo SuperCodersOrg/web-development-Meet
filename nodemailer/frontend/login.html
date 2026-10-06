@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Login Page</title>
+  </head>
+  <body>
+    <h1>Login Page</h1>
+    <form id="loginform">
+      <input type="email" id="username" name="username" placeholder="to" required />
+      <input type="text" id="password" name="password" placeholder="subject" required />
+      <input type="text" id="message" name="message" placeholder="message" required />
+      <button type="submit" id="submit">Submit</button>
+    </form>
+
+    <script>
+      const loginForm = document.getElementById("loginform");
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+
+        const cred = {
+          to: loginForm.username.value,
+          subject: loginForm.password.value,
+           message: loginForm.message.value,
+        };
+
+        fetch("http://localhost:3370/login", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(cred),
+          
+        }).then((response) => {
+              console.log("Hello");
+            if (!response.ok) {
+              throw new Error(`HTTP Error Status: ${response.status}`);
+            }
+             return response.json();
+          })
+          .then((data) => {
+            console.log("Response:", data);
+            if (data.success) {
+              window.location.href = "profile.html";
+            } else {
+              alert(data.message || "Invalid credentials");
+            }
+          })
+          .catch((err) => console.error("Fetch Error:", err));
+      });
+    </script>
+  </body>
+</html>
