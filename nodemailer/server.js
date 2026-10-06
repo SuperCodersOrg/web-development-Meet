@@ -1,3 +1,4 @@
+require('dotenv').config();
 
 const express = require('express');
 const nodemailer = require('nodemailer');
@@ -8,34 +9,37 @@ app.use(cors());
 const path = require("path");
 app.use(express.static(path.join(__dirname, "frontend")));
 console.log(nodemailer);
-let user = "meet.mittan.8888@gamil.com";
 
-let password  = "kzyudpuehshciqwg";
 const transporter = nodemailer.createTransport({
     service : "gmail",
     auth:{
-        user:user,
-        pass: password
+        user:process.env.USER,
+        pass: process.env.PASSWORD
     },
+});
+
+app.get("/", (req, res) => {
+  res.redirect("/index.html");
 });
 app.get("/login", (req, res) => {
   res.redirect("/login.html");
 });
-app.post('/login', async (req,res)=>{
+app.post('/login',  (req,res)=>{
     const {to,subject,message}= req.body;
+    console.log(to,subject,message);
     console.log("hello");
     try {
         transporter.sendMail({
-            from:user,
-            to,
-            subject,
+            from:process.env.USER,
+            to:to,
+            subject:subject,
             html:`<p>${message}</p>`,
         })
         res.json({
             success:true,message:"email sent successfuly"
         })
     }catch(err){
-        console.log(err);
+        console.log("error",err);
         res.status(500).json({
             success:false
         })
