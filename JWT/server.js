@@ -29,7 +29,7 @@ const users = [
 
 function setToken(user) {
   const token = jwt.sign({ username: user.username }, JWT_SECRET_KEY, {
-    expiresIn: "1d",
+    expiresIn: "10s",
   });
   return token;
 }

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>signup page</h1>
+    <form id="loginform">
+        <input type="text" id="username" name="username" placeholder="Username">
+        <input type="text" id="password" name="username" placeholder="password">
+<input type="gmail" id="role"name="username" placeholder="gmail">
+        <button type="submitbtn">submit</button>
+              <a href="/"> home</a><br/>
+          <a href="/login">login</a><br/>
+    </form>
+    <script>
+            const login = document.getElementById('loginform');
+
+     login.addEventListener('submit',(e)=>{
+      e.preventDefault();
+
+ const em = document.getElementById('username').value;
+  const pass = document.getElementById('password').value;
+    const role = document.getElementById('role').value;
+      const cred = {
+        email : em,
+        password:pass,
+        role:role
+      };console.log(cred);
+      fetch('http://localhost:3000/signup',{
+        method: "POST",
+        headers:{"Content-Type": "application/json"},
+        body : JSON.stringify(cred)
+      })
+      .then((res)=> {return res.json()})
+      .then((data)=>{
+console.log(data);
+if(data.success){
+    window.location.href="/profile"
+}
+else{
+    alert(data.message);
+}
+
+      })
+          .catch((err) => console.error("Error :", err));
+     })
+    </script>
+</body>
+</html>

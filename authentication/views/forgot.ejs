@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="gmail" id="username" name="username" placeholder="Username" />
+      <button type="submit" id="submit">Submit</button>
+          <script>
+  let login =      document.getElementById("username")
+      document.getElementById("submit").addEventListener("click", (e) => {
+
+        e.preventDefault();
+
+    
+
+        const cred = {
+          username: login.value,
+
+        };
+
+
+        fetch("http://localhost:3000/forgot", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+  
+          body: JSON.stringify(cred),
+        })
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            console.log(data);
+            if (data.success) {
+              window.location.href = "/login";
+            } else {
+              alert(data.message);
+            }
+          })
+          .catch((err) => console.log("Error :", err));
+      });
+    </script>
+</body>
+</html>

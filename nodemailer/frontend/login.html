@@ -3,50 +3,70 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Login Page</title>
+    <title>Email Sender / Login Page</title>
   </head>
   <body>
-    <h1>Login Page</h1>
+    <h1>Send Email</h1>
     <form id="loginform">
-      <input type="email" id="username" name="username" placeholder="to" required />
-      <input type="text" id="password" name="password" placeholder="subject" required />
-      <input type="text" id="message" name="message" placeholder="message" required />
-      <button type="submit" id="submit">Submit</button>
+      <div>
+        <label for="username">To:</label>
+        <input type="email" id="username" name="to" placeholder="Recipient Email" required />
+      </div>
+      <br />
+      <div>
+        <label for="password">Subject:</label>
+        <input type="text" id="password" name="subject" placeholder="Email Subject" required />
+      </div>
+      <br />
+      <div>
+        <label for="message">Message:</label>
+        <input type="text" id="message" name="message" placeholder="Your Message" required />
+      </div>
+      <br />
+      <button type="submit" id="submitBtn">Submit</button>
     </form>
 
     <script>
       const loginForm = document.getElementById("loginform");
+      const submitBtn = document.getElementById("submitBtn");
 
-      loginForm.addEventListener("submit", (e) => {
+      loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
 
+      
         const cred = {
-          to: loginForm.username.value,
-          subject: loginForm.password.value,
-           message: loginForm.message.value,
+          to: document.getElementById("username").value,
+          subject: document.getElementById("password").value,
+          message: document.getElementById("message").value,
         };
 
-        fetch("http://localhost:3370/login", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(cred),
+
+       
+
+        try {
+
+          const response = await fetch("/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(cred),
+          });
+
+          const data = await response.json();
+          console.log("Response:", data);
+
+          if (response.ok && data.success) {
+            alert(data.message || "Email sent successfully!");
+            window.location.href = "profile.html";
+          } else {
+            alert(data.message || "Failed to send email");
+          }
+        } catch (err) {
+          console.error("Fetch Error:", err);
+          alert("Network error or server is down!");
+        } 
+        
           
-        }).then((response) => {
-              console.log("Hello");
-            if (!response.ok) {
-              throw new Error(`HTTP Error Status: ${response.status}`);
-            }
-             return response.json();
-          })
-          .then((data) => {
-            console.log("Response:", data);
-            if (data.success) {
-              window.location.href = "profile.html";
-            } else {
-              alert(data.message || "Invalid credentials");
-            }
-          })
-          .catch((err) => console.error("Fetch Error:", err));
+        
       });
     </script>
   </body>
