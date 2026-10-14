@@ -129,12 +129,11 @@ const cors = require("cors");
 const path = require("path");
 const fs = require("fs/promises");
 const jwt = require("jsonwebtoken");
-const cookieParser = require("cookie-parser"); // Variable name standard 'cookieParser' rakha hai
+const cookieParser = require("cookie-parser");
 
 const app = express();
-const checkAuth = require("./middleware/middleware.js");
+const {isloggedIn} = require("./middleware/middleware.js");
 
-// 1. SABSE PEHELE PARSERS AUR MIDDLEWARES LAGAO (Routes se pehle)
 app.use(express.json());
 app.use(cors());
 app.use(cookieParser());
@@ -142,23 +141,24 @@ app.set("view engine", "ejs");
 
 const transporter = nodemailer.createTransport({
   service: "gmail",
+  family: 4,
   auth: {
     user: process.env.USER,
     pass: process.env.PASSWORD,
   },
 });
 
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "jwtkey@123";
-const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN || "accesstoken";
+const JWT_SECRET_KEY = "jwtkey@123";
+const JWT_SECRET_TOKEN =  "accesstoken";
 
 function setToken(user) {
   const token = jwt.sign({ username: user.username }, JWT_SECRET_KEY, {
-    expiresIn: "1h", // 10s se badha kar 1h kar diya taaki jaldi expire na ho
+    expiresIn: "1h", 
   });
   return token;
 }
 
-// --- PUBLIC ROUTES ---
+
 app.get("/", (req, res) => {
   res.render("index.ejs", { data: "entered" });
 });
@@ -178,12 +178,11 @@ app.get("/signup", (req, res) => {
   res.render("signup.ejs", { data: "entered" });
 });
 
-// --- PROTECTED ROUTE (Yahan checkAuth middleware pass kiya hai) ---
-app.get("/profile", checkAuth, (req, res) => {
+
+app.get("/profile", isloggedIn, (req, res) => {
   res.render("profile.ejs", { data: "entered" });
 });
 
-// --- LOGIN ROUTE ---
 app.post("/login", async (req, res) => {
   try {
     const { username ,password} = req.body;
@@ -243,7 +242,7 @@ app.post("/forgot", async (req, res) => {
     let dataarr = JSON.parse(file);
 
 
-    let user = dataarr.find((a) => a.email === username && a.password === password);
+  let user = dataarr.find((a) => a.gmail === username || a.username === username);
     
     if (!user) {
       return res.status(400).json({
@@ -251,7 +250,7 @@ app.post("/forgot", async (req, res) => {
         message: "User not found.",
       });
     }
-
+ const message = "http://localhost:3000/reset";
 
     const token = setToken(user);
 
@@ -263,9 +262,9 @@ app.post("/forgot", async (req, res) => {
 
     const info = await transporter.sendMail({
       from: process.env.USER,
-      to: to,
-      
-      html: `<p>${message}</p>`,
+      to: username,
+      subject: "Password Reset Link",
+      html: `<a href="${message}">Click here to reset password</a>`,
     });
     return res.status(200).json({
       success: true,
@@ -291,7 +290,7 @@ console.log(username,gmail)
     let file = await fs.readFile("data.json", "utf8");
     let dataarr = JSON.parse(file);
 
-    // Check karo kya username ya gmail pehle se present hai
+    
     let existingUser = dataarr.find((a) => a.username === username || a.gmail === gmail);
     if (existingUser) {
       return res.status(400).json({
@@ -300,12 +299,12 @@ console.log(username,gmail)
       });
     }
 
-    // Naya user push karo
+   
     const newUser = { username, gmail, password };
     dataarr.push(newUser);
     await fs.writeFile("data.json", JSON.stringify(dataarr, null, 2));
 
-    // Token generate karo aur cookie me set karo
+  
     const token = setToken(newUser);
     res.cookie(JWT_SECRET_TOKEN, token, {
       httpOnly: true,
@@ -323,7 +322,7 @@ console.log(username,gmail)
   }
 });
 
-// --- LOGOUT ROUTE ---
+
 app.get("/logout", (req, res) => {
   res.clearCookie(JWT_SECRET_TOKEN);
   res.render("index.ejs", { data: "entered" });

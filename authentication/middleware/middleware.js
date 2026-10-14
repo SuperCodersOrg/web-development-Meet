@@ -25,4 +25,4 @@ catch(err){
 }
 
 
-module.exports = isloggedIn;
+module.exports = {isloggedIn};
