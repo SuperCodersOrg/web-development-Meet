@@ -10,8 +10,8 @@
     <form id="loginform">
         <input type="text" id="username" name="username" placeholder="Username">
         <input type="text" id="password" name="username" placeholder="password">
-<input type="text" id="role"name="username" placeholder="role">
-        <button type="submitbtn"></button>
+<input type="text" id="gmail"name="username" placeholder="gmail">
+        <button type="submitbtn">submit</button>
     </form>
     <script>
             const login = document.getElementById('loginform');
@@ -19,13 +19,13 @@
      login.addEventListener('submit',(e)=>{
       e.preventDefault();
 
- const em = document.getElementById('username').value;
-  const pass = document.getElementById('password').value;
-    const role = document.getElementById('role').value;
+ const username= document.getElementById('username').value;
+  const password = document.getElementById('password').value;
+    const gmail = document.getElementById('gmail').value;
       const cred = {
-        email : em,
-        password:pass,
-        role:role
+        username : username,
+        password:password,
+       gmail:gmail
       }
       fetch('http://localhost:3300/signup',{
         method: "POST",

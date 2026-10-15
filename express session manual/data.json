@@ -1,1 +1,13 @@
 
+[
+  {
+    "username": "meet",
+    "password": "meet@123",
+    "role": "student"
+  },
+  {
+    "username": "meet",
+    "password": "meet@1230",
+    "role": "teacher"
+  }
+]
