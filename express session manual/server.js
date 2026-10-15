@@ -9,19 +9,16 @@ const app = express();
 app.use(cors());
 app.use(express.static(path.join(__dirname, "frontend")));
 app.use(express.json());
-
+const {checkauth} = require("./middlewares/middleware.js");
 
 async function appendData(gmail, username, password) {
     try {
         let id = Date.now();;
         
- 
         let fileContent = await fs.readFile("ids.json", "utf8");
-        
-
+      
         let dataArray = fileContent ? JSON.parse(fileContent) : [];
-        
-     
+
         let newCred = {
             sessionid: id,
             gmail: gmail,
@@ -53,7 +50,7 @@ app.get("/login", (req, res) => {
 app.post("/login",async (req, res, next) => {
 
   const { gmail, password } = req.body;
-  console.log(username, password);
+  // console.log(gmail, password);
   let users  = await fs.readFile("ids.json", "utf8");
 let musers = users ? JSON.parse(users) : [];
   const user = musers.find(
@@ -61,27 +58,28 @@ let musers = users ? JSON.parse(users) : [];
      u.password === password && u.gmail ===gmail,
   );
   console.log(user);
-  if (!user) {
+  if (user ===undefined) {
     return res.json({ message: "invalid credentials", success: "false" });
   }
 
-  console.log(user.role);
+ 
 
 
 });
 
 app.post("/signup", async (req, res, next) => {
   const { username, password, gmail } = req.body;
-  console.log(req.body)
+
 let users  = await fs.readFile("ids.json", "utf8");
 let musers = users ? JSON.parse(users) : [];
-console.log(users)
+
   const user = musers.find(
     (u) => u.username === username && u.password === password &&u.gmail===gmail
   );
 
-  if (user) {
-    return res.json({ message: "already sugnup", success: "false" });
+  if (user) { console.log(123)
+    return  res.json({ message: "already signup", success: "false" });
+  
   }
 
  let sessionid =  appendData(gmail,username,password);
