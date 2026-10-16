@@ -8,7 +8,9 @@ const userschema = new mongoose.Schema({
   email: {
     type: String,
     required: [true, "email is required"],
-    unique: true,
+    unique: [true,"email already exist"],
+    lowercase:true,
+    trim:true,
   },
   age:{
     type:Number,
@@ -18,10 +20,10 @@ const userschema = new mongoose.Schema({
     type:Date,
     default:Date.now
 }
-},
+},{timestamps:true}
 
 );
 
 
-module.exports = mongoose.exports("user",userschema);
+module.exports = mongoose.model("user",userschema);
 

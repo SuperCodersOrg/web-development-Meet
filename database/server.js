@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-
+const connectDB = require('./config/db');
 const app = express();
 
 app.use(cors());
@@ -10,22 +10,13 @@ const jwt = require("jsonwebtoken");
 app.use(express.json());
 const path = require("path");
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "frontend")));
+app.use(express.static(path.join(__dirname, "public")));
 
 const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "jwtkey@123";
 
 const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN || "accesstoken";
 
-const users = [
-  {
-    username: "meet",
-    password: "meet@123",
-  },
-  {
-    username: "meet",
-    password: "meet@1230",
-  },
-];
+
 
 function setToken(user) {
   const token = jwt.sign({ username: user.username }, JWT_SECRET_KEY, {
