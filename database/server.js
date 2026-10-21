@@ -1,88 +1,132 @@
-const express = require("express");
-const cors = require("cors");
-const connectDB = require('./config/db');
+const express = require('express');
+const mongoose = require('mongoose');
+const dotenv = require('dotenv');
+const cors = require('cors');
+const Item = require('./models/Items');
+const connectDB = require('./config/mongo');
+
+
+dotenv.config();
+
 const app = express();
+const port = process.env.PORT || 3000;
 
-app.use(cors());
-const cookieParser = require("cookie-parser");
-const jwt = require("jsonwebtoken");
-
+ connectDB();
 app.use(express.json());
-const path = require("path");
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-
-const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY || "jwtkey@123";
-
-const JWT_SECRET_TOKEN = process.env.JWT_SECRET_TOKEN || "accesstoken";
+app.use(cors());
 
 
-
-function setToken(user) {
-  const token = jwt.sign({ username: user.username }, JWT_SECRET_KEY, {
-    expiresIn: "10s",
-  });
-  return token;
-}
-
-app.get("/", (req, res) => {
-  res.redirect("index.html");
-});
-
-app.get("/login", (req, res) => {
-  res.redirect("/login.html");
-});
-
-app.get("/signup", (req, res) => {
-  res.redirect("signin.html");
-});
-
-app.get("/logout", (req, res) => {
-  res.clearCookie("token");
-  res.redirect("index.html");
-});
-
-app.post("/login", (req, res) => {
-  const { username, password } = req.body;
-  console.log(req.body);
-  const user = users.find(
-    (u) => u.username === username && u.password === password,
-  );
-  if (!user) {
-    return res.json({ message: "invalid credentials", success: "false" });
+app.post('signup', async (req, res) => {
+  try {
+    const { username,password,gmail} = req.body;
+    
+    
+    const newItem = await Item.create({ username,password,gmail });
+    
+    res.status(201).json({
+      success: true,
+      message: 'Item created successfully',
+      data: newItem,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
   }
-  return res.json({ success: true, token: "your_jwt_token" });
-
-  const token = setToken(user);
-
-  res.cookie(JWT_SECRET_TOKEN, token, {
-    httpOnly: true,
-    maxAge: 24 * 1000 * 60 * 60,
-  });
 });
 
-app.post("/signup", (req, res, next) => {
-  const { username, password } = req.body;
 
-  const user = users.find(
-    (u) => u.username === username && u.password === password,
-  );
-  if (!user) {
-    return res.json({ message: "invalid credentials", success: "false" });
+app.post('signup/many', async (req, res) => {
+  try {
+
+    const itemsArray = req.body.items;
+
+    if (!Array.isArray(itemsArray) || itemsArray.length === 0) {
+      return res.status(400).json({ 
+        success: false, 
+        error: 'Please provide an array of items under the "items" key' 
+      });
+    }
+
+
+    const insertedItems = await Item.insertMany(itemsArray);
+
+    res.status(201).json({
+      success: true,
+      count: insertedItems.length,
+      message: `${insertedItems.length} items created successfully`,
+      data: insertedItems,
+    });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
   }
-
-  return res.json({ success: true, token: "your_jwt_token" });
-
-  const token = setToken(user);
-
-  res.cookie(JWT_SECRET_TOKEN, token, {
-    httpOnly: true,
-    maxAge: 24 * 1000 * 60 * 60,
-  });
-
-  next();
 });
 
-app.listen(3000, () => {
-  console.log("server is running");
+
+app.post('login', async (req, res) => {
+  try { const {gmail,password} = req.body
+    const items = await Item.find({gmail});
+    res.status(200).json({
+      success: true,
+      count: items.length,
+      data: items,
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
 });
+
+
+app.get('/api/items/:id', async (req, res) => {
+  try {
+    const item = await Item.findById(req.params.id);
+    
+    if (!item) {
+      return res.status(404).json({ success: false, error: 'Item not found' });
+    }
+    
+    res.status(200).json({ success: true, data: item });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
+app.put('/api/items/:id', async (req, res) => {
+  try {
+    const {username,password,gmail } = req.body;
+
+    const updatedItem = await Item.findByIdAndUpdate(
+      req.params.id,
+      { username,password,gmail },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedItem) {
+      return res.status(404).json({ success: false, error: 'Item not found' });
+    }
+
+    res.status(200).json({ success: true, data: updatedItem });
+  } catch (error) {
+    res.status(400).json({ success: false, error: error.message });
+  }
+});
+
+
+app.delete('/api/items/:id', async (req, res) => {
+  try {
+    const deletedItem = await Item.findByIdAndDelete(req.params.id);
+
+    if (!deletedItem) {
+      return res.status(404).json({ success: false, error: 'Item not found' });
+    }
+
+    res.status(200).json({ success: true, message: 'Item deleted successfully', data: deletedItem });
+  } catch (error) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+
+
+app.listen(port,()=>{
+    console.log("Server is live on port : ",port);
+})
